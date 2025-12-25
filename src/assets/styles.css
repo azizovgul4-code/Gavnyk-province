@@ -1,0 +1,140 @@
+/* Minecraft-style pixel UI */
+:root{
+  --bg:#89cff0;
+  --panel:#e6e2c3;
+  --accent:#6b8f32;
+  --muted:#7b6f5a;
+  --ui:#2b2b2b;
+}
+
+*{box-sizing:border-box;font-family: 'Press Start 2P', system-ui;}
+html,body{height:100%;margin:0;font-family:'Press Start 2P',monospace;background:linear-gradient(180deg,#8ec5ff 0%,#a7d7ff 50%,#c6e9ff 100%);}
+canvas#bg-canvas{position:fixed;inset:0;z-index:0;display:block}
+
+.topbar{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:rgba(0,0,0,0.12);backdrop-filter: blur(3px);}
+.topbar .logo{color:white;padding:6px 10px;background:#2b2b2b;border:4px solid #111;box-shadow:6px 6px 0 rgba(0,0,0,0.6);}
+.topbar nav a{color:#fff;margin-left:16px;text-decoration:none}
+
+.hero{position:relative;z-index:2;padding:80px 20px;text-align:center}
+.title{font-size:34px;color:#fff;margin:0 0 8px;text-shadow:4px 4px 0 rgba(0,0,0,0.4)}
+.subtitle{color:#ffd;opacity:0.95;margin:0 0 18px}
+.cta-row{display:flex;gap:12px;justify-content:center}
+.btn{display:inline-block;padding:14px 20px;background:#2b2b2b;color:#fff;text-decoration:none;border:4px solid #111;box-shadow:6px 6px 0 rgba(0,0,0,0.5);cursor:pointer}
+.btn.small{padding:10px 12px}
+.btn-donate{background:linear-gradient(180deg,#e65a22,#b43b12)}
+.btn-tier{background:linear-gradient(180deg,#56a84a,#3b7b32)}
+
+.floating-blocks{position:absolute;inset:0;pointer-events:none}
+.block{position:absolute;width:56px;height:56px;transform:translate(-50%,-50%);image-rendering:pixelated;border:4px solid #111;box-shadow:6px 6px 0 rgba(0,0,0,0.4)}
+.block.dirt{background:linear-gradient(#8b5a2b,#6b4327)}
+.block.grass{background:linear-gradient(#6dbd2b,#448e1b)}
+.block.stone{background:linear-gradient(#9aa0a6,#6f7478)}
+.block.diamond{background:linear-gradient(#9fe7ff,#57d1f0)}
+/* position/animation via custom properties */
+.block{left:calc(var(--x,50) * 1%);top:calc(var(--y,50) * 1%);animation:float 6s calc(var(--d,0s) * 2s) ease-in-out infinite}
+@keyframes float{0%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-18px)}100%{transform:translate(-50%,-50%) translateY(0)}}
+
+.panel{position:relative;z-index:2;background:rgba(255,255,255,0.9);margin:28px auto;padding:24px;max-width:980px;border:6px solid #111}
+.donation-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.donation-buttons button{font-family:inherit;padding:12px 16px;border:4px solid #111;background:#ffd;cursor:pointer}
+.note{margin-top:12px;color:#6b6b6b}
+
+/* Donation cards */
+.donation-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:14px}
+.card{background:linear-gradient(180deg,#fff9e7,#efe6c2);border:6px solid #111;padding:12px;text-align:center;cursor:pointer;position:relative}
+.card .amount{font-size:20px;margin-bottom:8px;color:#2b2b2b}
+.card .desc{font-size:11px;color:#5b4f3a;margin-bottom:10px}
+.card-donate{background:linear-gradient(180deg,#ffcf5a,#e6a832);border:4px solid #111}
+.card:hover{transform:translateY(-8px) rotate(-1deg);box-shadow:10px 10px 0 rgba(0,0,0,0.25)}
+.card.card-custom{background:linear-gradient(180deg,#dfeaff,#c7ddff)}
+.card.card-custom .amount{font-size:16px}
+
+/* small adjustments */
+@media (max-width:520px){.donation-cards{grid-template-columns:repeat(2,1fr)}}
+
+.tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-top:14px}
+.tier{background:#f7f2d7;padding:12px;border:4px solid #111}
+.tier-card{background:linear-gradient(180deg,#fffef0,#f3e9c2);border:6px solid #111;padding:14px;text-align:center;position:relative;cursor:pointer}
+.tier-card .tier-price{font-size:20px;font-weight:700;margin-bottom:8px}
+.tier-card h3{margin:6px 0 8px}
+.tier-card .perks{list-style:none;padding:0;margin:6px 0 12px;color:#4b3f2e}
+.tier-card .perks li{margin:6px 0}
+.tier-card .ribbon{position:absolute;left:-6px;top:-12px;background:#ff5a5a;color:#fff;padding:6px 10px;font-size:12px;border:4px solid #111;transform:rotate(-8deg)}
+.tier-card.popular{background:linear-gradient(180deg,#fff7e6,#ffe7b8);box-shadow:12px 12px 0 rgba(0,0,0,0.12)}
+.tier-card.bronze .tier-price{color:#8b5a3a}
+.tier-card.silver .tier-price{color:#9b9b9b}
+.tier-card.gold .tier-price{color:#d39b18}
+.tier-card .tier-choose{background:linear-gradient(180deg,#6dbd2b,#3b7b32);color:white;border:4px solid #111}
+.tier-card:hover{transform:translateY(-8px) rotate(-1deg);box-shadow:10px 10px 0 rgba(0,0,0,0.18)}
+.tier-card.popular{animation:popular-pulse 3.2s ease-in-out infinite}
+@keyframes popular-pulse{0%{transform:translateY(-2px)}50%{transform:translateY(-10px)}100%{transform:translateY(-2px)}}
+
+.pixel-icon{width:64px;height:64px;margin:0 auto 8px;border:4px solid #111}
+.pixel-icon.bronze{background:linear-gradient(#c07a3a,#8b4f2a)}
+.pixel-icon.silver{background:linear-gradient(#cfcfcf,#9b9b9b)}
+.pixel-icon.gold{background:linear-gradient(#ffd24a,#d39b18)}
+
+.footer{position:relative;z-index:2;text-align:center;padding:16px;color:#222}
+
+/* small screens */
+@media (max-width:600px){.title{font-size:18px}.topbar{padding:10px}.btn{padding:10px 12px}}
+
+/* particle burst style for JS */
+.particle{position:fixed;width:8px;height:8px;border-radius:2px;background:#ffd54a;pointer-events:none;z-index:9999;mix-blend-mode:screen}
+
+/* --- Extra animations --- */
+/* pulsing donate button */
+.btn-donate{animation:donate-pulse 2.2s infinite;transform-origin:center}
+@keyframes donate-pulse{0%{box-shadow:6px 6px 0 rgba(0,0,0,0.5)}50%{transform:translateY(-6px) scale(1.03);box-shadow:10px 12px 0 rgba(0,0,0,0.45)}100%{transform:none;box-shadow:6px 6px 0 rgba(0,0,0,0.5)}}
+
+/* floating blocks get a subtle rotate and scale for more life */
+.block{transition:transform 300ms ease, filter 300ms ease}
+.block:hover{transform:translate(-50%,-50%) scale(1.06) rotate(-8deg);filter:brightness(1.05) drop-shadow(6px 6px 0 rgba(0,0,0,0.4))}
+
+/* coin that appears on donate */
+.coin{position:fixed;width:40px;height:40px;border-radius:6px;background:conic-gradient(#ffd24a,#f9b62f);border:4px solid #7a4b00;z-index:9999;transform:translate(-50%,-50%) scale(0);pointer-events:none}
+.coin.pop{animation:coin-pop 700ms cubic-bezier(.2,.9,.2,1) forwards}
+@keyframes coin-pop{0%{transform:translate(-50%,-50%) scale(0)}40%{transform:translate(-50%,-120%) scale(1.06)}100%{transform:translate(-50%,-600%) scale(0.6);opacity:0}}
+
+/* sparkles for tiers */
+.tier .pixel-icon{position:relative;overflow:visible}
+.tier .pixel-icon::after{content:'';position:absolute;right:-6px;top:-6px;width:8px;height:8px;background:#fff;border-radius:2px;opacity:0;transform:scale(0.6);transition:all 250ms}
+.tier:hover .pixel-icon::after{opacity:1;transform:scale(1.1)}
+
+/* shimmer on small badges */
+.pixel-icon{background-size:200% 100%;animation:icon-shimmer 6s linear infinite}
+@keyframes icon-shimmer{0%{background-position:0% 0%}50%{background-position:100% 0%}100%{background-position:0% 0%}}
+
+/* subtle parallax transform on hero when mouse moves */
+.hero[data-parallax='on']{will-change:transform}
+
+/* tier tilt on hover */
+.tier{transition:transform 200ms ease, box-shadow 200ms ease}
+.tier:hover{transform:translateY(-8px) rotate(-1.5deg);box-shadow:12px 12px 0 rgba(0,0,0,0.2)}
+
+/* micro-block-break animation (triggered via JS) */
+.block.break{animation:block-break 450ms steps(4) forwards}
+@keyframes block-break{0%{filter:brightness(1)}50%{transform:translate(-50%,-50%) translateY(6px) rotate(2deg) scale(0.98)}100%{transform:translate(-50%,-50%) translateY(40px) rotate(30deg) scale(0.3);opacity:0}}
+
+/* responsive: make floating blocks smaller on tiny screens */
+@media (max-width:420px){.block{width:40px;height:40px;border-width:3px}.coin{width:30px;height:30px}}
+
+/* Modal/paypal styles */
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.55);z-index:10000}
+.modal.hidden{pointer-events:none;opacity:0;transition:opacity 160ms ease}
+.modal:not(.hidden){pointer-events:auto;opacity:1}
+.modal-content{background:#fff;padding:18px;border:6px solid #111;max-width:420px;width:92%;text-align:center}
+.modal-content #paypal-button-container{display:flex;justify-content:center}
+.modal-content #paypal-close{position:absolute;right:18px;top:18px}
+
+/* improved modal responsiveness and spinner */
+.modal-content{max-width:520px;max-height:80vh;overflow:auto}
+.modal-spinner{width:42px;height:42px;border-radius:8px;box-shadow:inset 0 0 0 4px rgba(255,255,255,0.6);animation:spinner-rot 900ms linear infinite}
+@keyframes spinner-rot{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+@media (max-width:460px){
+  .modal-content{width:94%;padding:12px;border-width:4px}
+  .modal-content h3{font-size:14px}
+  .modal-content #paypal-info{font-size:13px}
+}
+
