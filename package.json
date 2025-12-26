@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@fontsource/press-start-2p": "^5.2.7",
+    "@netlify/neon": "^0.1.0",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
+    "crypto": "^1.0.1",
+    "node-fetch": "^3.3.2",
+    "raw-body": "^3.0.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.11.0"

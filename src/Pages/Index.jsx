@@ -68,7 +68,7 @@ function Index() {
       {/* ⚠️ JSX НИЖЕ — НЕ ТРОНУТ */}
       <main className="hero">
         <h1 className="title">Поддержите Сервер</h1>
-        <p className="subtitle">Keep the world running — help build, host, and expand!Поддерживайте работу мира — помогайте создавать, размещать и расширять!</p>
+        <p className="subtitle">Поддерживайте работу мира — помогайте создавать, размещать и расширять!</p>
 
         <div className="cta-row">
           <a className="btn btn-donate" href="#donate">Купить Сейчас</a>
